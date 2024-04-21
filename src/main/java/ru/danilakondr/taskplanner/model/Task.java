@@ -3,6 +3,7 @@ package ru.danilakondr.taskplanner.model;
 import java.time.LocalDate;
 
 import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.*;
 
 @Entity
 @Table(name="tasks")
@@ -30,9 +31,11 @@ public class Task {
 	private Priority priority;
 	
 	@Column(name="DateOfStart")
+	@JsonFormat(pattern="yyyy-MM-dd")
 	private LocalDate dateOfStart;
 	
 	@Column(name="DateOfEnd")
+	@JsonFormat(pattern="yyyy-MM-dd")
 	private LocalDate dateOfEnd;
 	
 	@Column(name="State")
