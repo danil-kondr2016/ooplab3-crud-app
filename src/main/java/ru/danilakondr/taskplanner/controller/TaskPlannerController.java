@@ -86,11 +86,64 @@ public class TaskPlannerController {
 	public ModelAndView jsonList() {
 		MappingJackson2JsonView view = new MappingJackson2JsonView();
 		view.setExtractValueFromSingleKeyModel(true);
-		view.setPrettyPrint(true);
 		
 		ModelAndView mv = new ModelAndView();
 		mv.setView(view);
 		mv.addObject("jsonKey", service.allTasks());
+		
+		return mv;
+	}
+	
+	@RequestMapping(value="/json/add", method=RequestMethod.POST)
+	public ModelAndView jsonAdd(@RequestBody Task task) {
+		MappingJackson2JsonView view = new MappingJackson2JsonView();
+		ModelAndView mv = new ModelAndView();
+		mv.setView(view);
+		
+		try {
+			service.add(task);
+			mv.addObject("status", "success");
+		}
+		catch (IllegalArgumentException e) {
+			mv.addObject("status", "failed");
+			mv.addObject("reason", e.getMessage());
+		}
+		
+		return mv;
+	}
+	
+	@RequestMapping(value="/json/edit", method=RequestMethod.POST)
+	public ModelAndView jsonEdit(@RequestBody Task task) {
+		MappingJackson2JsonView view = new MappingJackson2JsonView();
+		ModelAndView mv = new ModelAndView();
+		mv.setView(view);
+		
+		try {
+			service.edit(task);
+			mv.addObject("status", "success");
+		}
+		catch (IllegalArgumentException e) {
+			mv.addObject("status", "failed");
+			mv.addObject("reason", e.getMessage());
+		}
+		
+		return mv;
+	}
+	
+	@RequestMapping(value="/json/delete/{id}", method=RequestMethod.GET)
+	public ModelAndView jsonDelete(@PathVariable("id") long id) {
+		MappingJackson2JsonView view = new MappingJackson2JsonView();
+		ModelAndView mv = new ModelAndView();
+		mv.setView(view);
+		
+		try {
+			Task task = service.getById(id);
+			service.delete(task);
+		}
+		catch (IllegalArgumentException e) {
+			mv.addObject("status", "failed");
+			mv.addObject("reason", e.getMessage());
+		}
 		
 		return mv;
 	}
