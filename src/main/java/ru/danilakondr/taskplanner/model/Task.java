@@ -2,6 +2,10 @@ package ru.danilakondr.taskplanner.model;
 
 import java.time.LocalDate;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name="tasks")
 public class Task {
 	public static enum Priority {
 		NONE, LOW, MEDIUM, HIGH, URGENT
@@ -11,12 +15,27 @@ public class Task {
 		HELD, TAKEN, IN_PROGRESS, COMPLETED
 	};
 	
+	@Id
+	@Column(name="TaskID")
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private long id;
+	
+	@Column(name="Name")
 	private String name;
+	
+	@Column(name="TimeInHours")
 	private int timeInHours;
+	
+	@Column(name="Priority")
 	private Priority priority;
+	
+	@Column(name="DateOfStart")
 	private LocalDate dateOfStart;
+	
+	@Column(name="DateOfEnd")
 	private LocalDate dateOfEnd;
+	
+	@Column(name="State")
 	private State state;
 	
 	public Task() {

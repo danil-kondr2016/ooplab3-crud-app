@@ -1,65 +1,50 @@
 package ru.danilakondr.taskplanner.dao;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import ru.danilakondr.taskplanner.model.Task;
 
 @Repository
 public class TaskAccessorImpl implements TaskAccessor {
-	private static final AtomicInteger AUTO_ID = new AtomicInteger(0);
-	private static Map<Long, Task> data = new HashMap<>();
+	private SessionFactory sessionFactory;
 	
-	static {
-		Task t1 = new Task();
-		t1.setId(AUTO_ID.incrementAndGet());
-		t1.setName("Task #1");
-		t1.setPriority(Task.Priority.HIGH);
-		t1.setTimeInHours(40);
-		t1.setDateOfStart(2024, 4, 21);
-		t1.setState(Task.State.IN_PROGRESS);
-		
-		data.put(t1.getId(), t1);
-		
-		Task t2 = new Task();
-		t2.setId(AUTO_ID.incrementAndGet());
-		t2.setName("Task #2");
-		t2.setPriority(Task.Priority.HIGH);
-		t2.setTimeInHours(30);
-		t2.setDateOfStart(2024, 4, 21);
-		t2.setState(Task.State.HELD);
-		
-		data.put(t2.getId(), t2);
+	@Autowired
+	public void setSessionFactory(SessionFactory sessionFactory) {
+		this.sessionFactory = sessionFactory;
 	}
 	
 	@Override
 	public List<Task> allTasks() {
-		return new ArrayList<>(data.values());
+		Session session = sessionFactory.getCurrentSession();
+		return session.createSelectionQuery("FROM Task", Task.class).getResultList();
 	}
 
 	@Override
 	public void add(Task task) {
-		task.setId(AUTO_ID.incrementAndGet());
-		data.put(task.getId(), task);
+		Session session = sessionFactory.getCurrentSession();
+		session.persist(task);
 	}
 
 	@Override
 	public void delete(Task task) {
-		data.remove(task.getId());
+		Session session = sessionFactory.getCurrentSession();
+		session.remove(task);
 	}
 
 	@Override
 	public void edit(Task task) {
-		data.put(task.getId(), task);
+		Session session = sessionFactory.getCurrentSession();
+		session.merge(task);
 	}
 
 	@Override
 	public Task getById(long id) {
-		return data.get(id);
+		Session session = sessionFactory.getCurrentSession();
+		return session.get(Task.class, id);
 	}
 }

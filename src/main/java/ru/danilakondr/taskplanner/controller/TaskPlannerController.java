@@ -27,7 +27,7 @@ public class TaskPlannerController {
 		mw.setViewName("tasks");
 		
 		mw.addObject("taskList", tasks);
-		
+
 		return mw;
 	}
 	
@@ -47,7 +47,7 @@ public class TaskPlannerController {
 		ModelAndView mw = new ModelAndView();
 		mw.setViewName("redirect:/");
 		service.edit(task);
-		
+
 		return mw;
 	}
 	
