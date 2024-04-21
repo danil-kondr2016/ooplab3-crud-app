@@ -42,6 +42,17 @@ public class TaskPlannerController {
 		return mw;
 	}
 	
+	@RequestMapping(value="/delete/{id}", method=RequestMethod.GET)
+	public ModelAndView deleteTask(@PathVariable("id") long id) {
+		Task task = service.getById(id);
+		
+		ModelAndView mw = new ModelAndView();
+		mw.setViewName("redirect:/");
+		service.delete(task);
+		
+		return mw;
+	}
+	
 	@RequestMapping(value="/edit", method=RequestMethod.POST)
 	public ModelAndView editTask(@ModelAttribute("task") Task task) {
 		ModelAndView mw = new ModelAndView();
