@@ -44,6 +44,8 @@
 </c:forEach>
 </table>
 
+<p><a href="/add">Create new task</a></p>
+
 </main>
 
 </body>
