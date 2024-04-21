@@ -6,15 +6,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.springframework.stereotype.Repository;
+
 import ru.danilakondr.taskplanner.model.Task;
 
+@Repository
 public class TaskAccessorImpl implements TaskAccessor {
 	private static final AtomicInteger AUTO_ID = new AtomicInteger(0);
 	private static Map<Long, Task> data = new HashMap<>();
 	
 	static {
 		Task t1 = new Task();
-		t1.setId(1);
+		t1.setId(AUTO_ID.incrementAndGet());
 		t1.setName("Task #1");
 		t1.setPriority(Task.Priority.HIGH);
 		t1.setTimeInHours(40);
@@ -24,7 +27,7 @@ public class TaskAccessorImpl implements TaskAccessor {
 		data.put(t1.getId(), t1);
 		
 		Task t2 = new Task();
-		t2.setId(2);
+		t2.setId(AUTO_ID.incrementAndGet());
 		t2.setName("Task #2");
 		t2.setPriority(Task.Priority.HIGH);
 		t2.setTimeInHours(30);

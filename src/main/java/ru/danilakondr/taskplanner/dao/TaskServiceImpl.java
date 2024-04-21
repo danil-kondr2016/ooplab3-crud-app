@@ -2,11 +2,19 @@ package ru.danilakondr.taskplanner.dao;
 
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import ru.danilakondr.taskplanner.model.Task;
 
+@Service
 public class TaskServiceImpl implements TaskService {
 	private TaskAccessor dao = new TaskAccessorImpl();
 
+	@Autowired
+	public void setAccessor(TaskAccessor accessor) {
+		this.dao = accessor;
+	}
+	
 	@Override
 	public List<Task> allTasks() {
 		return dao.allTasks();
