@@ -12,12 +12,12 @@ public class Task {
 	};
 	
 	private long id;
-	private String taskName;
+	private String name;
 	private int timeInHours;
 	private Priority priority;
 	private LocalDate dateOfStart;
 	private LocalDate dateOfEnd;
-	private State taskState;
+	private State state;
 	
 	public Task() {
 		
@@ -25,7 +25,7 @@ public class Task {
 	
 	public String toString() {
 		return String.format("Task %d: %s, %d hours, priority %s, started at %s, state %s",
-				id, taskName, timeInHours, priority, dateOfStart, taskState);
+				id, name, timeInHours, priority, dateOfStart, state);
 	}
 	
 	public long getId() {
@@ -36,12 +36,12 @@ public class Task {
 		this.id = id;
 	}
 	
-	public String getTaskName() {
-		return taskName;
+	public String getName() {
+		return name;
 	}
 	
-	public void setTaskName(String taskName) {
-		this.taskName = taskName;
+	public void setName(String taskName) {
+		this.name = taskName;
 	}
 	
 	public int getTimeInHours() {
@@ -84,11 +84,11 @@ public class Task {
 		this.dateOfEnd = LocalDate.of(year, month, day);
 	}
 	
-	public State getTaskState() {
-		return taskState;
+	public State getState() {
+		return state;
 	}
 	
-	public void setTaskState(State state) {
-		this.taskState = state;
+	public void setState(State state) {
+		this.state = state;
 	}
 }

@@ -15,21 +15,21 @@ public class TaskAccessorImpl implements TaskAccessor {
 	static {
 		Task t1 = new Task();
 		t1.setId(1);
-		t1.setTaskName("Task #1");
+		t1.setName("Task #1");
 		t1.setPriority(Task.Priority.HIGH);
 		t1.setTimeInHours(40);
 		t1.setDateOfStart(2024, 4, 21);
-		t1.setTaskState(Task.State.IN_PROGRESS);
+		t1.setState(Task.State.IN_PROGRESS);
 		
 		data.put(t1.getId(), t1);
 		
 		Task t2 = new Task();
 		t2.setId(2);
-		t2.setTaskName("Task #2");
+		t2.setName("Task #2");
 		t2.setPriority(Task.Priority.HIGH);
 		t2.setTimeInHours(30);
 		t2.setDateOfStart(2024, 4, 21);
-		t2.setTaskState(Task.State.HELD);
+		t2.setState(Task.State.HELD);
 		
 		data.put(t2.getId(), t2);
 	}
