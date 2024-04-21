@@ -6,6 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import ru.danilakondr.taskplanner.model.Task;
 import ru.danilakondr.taskplanner.dao.*;
@@ -23,59 +26,72 @@ public class TaskPlannerController {
 	public ModelAndView allTasks() {
 		List<Task> tasks = service.allTasks();
 		
-		ModelAndView mw = new ModelAndView();
-		mw.setViewName("tasks");
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("tasks");
 		
-		mw.addObject("taskList", tasks);
+		mv.addObject("taskList", tasks);
 
-		return mw;
+		return mv;
 	}
 	
 	@RequestMapping(value="/edit/{id}", method=RequestMethod.GET)
 	public ModelAndView editPage(@PathVariable("id") long id) {
 		Task task = service.getById(id);
 		
-		ModelAndView mw = new ModelAndView();
-		mw.setViewName("edit");
-		mw.addObject("task", task);
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("edit");
+		mv.addObject("task", task);
 		
-		return mw;
+		return mv;
 	}
 	
 	@RequestMapping(value="/delete/{id}", method=RequestMethod.GET)
 	public ModelAndView deleteTask(@PathVariable("id") long id) {
 		Task task = service.getById(id);
 		
-		ModelAndView mw = new ModelAndView();
-		mw.setViewName("redirect:/");
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("redirect:/");
 		service.delete(task);
 		
-		return mw;
+		return mv;
 	}
 	
 	@RequestMapping(value="/edit", method=RequestMethod.POST)
 	public ModelAndView editTask(@ModelAttribute("task") Task task) {
-		ModelAndView mw = new ModelAndView();
-		mw.setViewName("redirect:/");
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("redirect:/");
 		service.edit(task);
 
-		return mw;
+		return mv;
 	}
 	
 	@RequestMapping(value="/add", method=RequestMethod.GET)
 	public ModelAndView addPage() {
-		ModelAndView mw = new ModelAndView();
-		mw.setViewName("edit");
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("edit");
 		
-		return mw;
+		return mv;
 	}
 	
 	@RequestMapping(value="/add", method=RequestMethod.POST)
 	public ModelAndView addTask(@ModelAttribute("task") Task task) {
-		ModelAndView mw = new ModelAndView();
-		mw.setViewName("redirect:/");
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("redirect:/");
 		service.add(task);
 		
-		return mw;
+		return mv;
+	}
+	
+	@RequestMapping(value="/json/list", method=RequestMethod.GET)
+	public ModelAndView jsonList() {
+		MappingJackson2JsonView view = new MappingJackson2JsonView();
+		view.setExtractValueFromSingleKeyModel(true);
+		view.setPrettyPrint(true);
+		
+		ModelAndView mv = new ModelAndView();
+		mv.setView(view);
+		mv.addObject("jsonKey", service.allTasks());
+		
+		return mv;
 	}
 }
