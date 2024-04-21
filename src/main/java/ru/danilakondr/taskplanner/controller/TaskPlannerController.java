@@ -1,34 +1,26 @@
 package ru.danilakondr.taskplanner.controller;
 
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import ru.danilakondr.taskplanner.model.Task;
+import ru.danilakondr.taskplanner.dao.*;
 
 @Controller
 public class TaskPlannerController {
-	
-	private Task createTask(long id) {
-		Task t = new Task();
-		
-		t.setId(id);
-		t.setPriority(Task.Priority.URGENT);
-		t.setTaskName("Test");
-		t.setTimeInHours(40);
-		t.setTaskState(Task.State.IN_PROGRESS);
-		t.setDateOfStart(2024, 4, 21);
-		
-		return t;
-	}
+	private TaskService service = new TaskServiceImpl();
 
 	@RequestMapping(value="/", method=RequestMethod.GET)
 	public ModelAndView allTasks() {
+		List<Task> tasks = service.allTasks();
+		
 		ModelAndView mw = new ModelAndView();
 		mw.setViewName("tasks");
 		
-		Task t = createTask(1000);
-		mw.addObject("task", t);
+		mw.addObject("taskList", tasks);
 		
 		return mw;
 	}
