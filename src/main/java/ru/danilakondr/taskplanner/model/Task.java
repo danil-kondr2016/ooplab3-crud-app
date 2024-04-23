@@ -13,7 +13,7 @@ public class Task {
 	};
 	
 	public static enum State {
-		HELD, TAKEN, IN_PROGRESS, COMPLETED
+		HELD, TAKEN, IN_PROGRESS, COMPLETED, PAUSED
 	};
 	
 	@Id
