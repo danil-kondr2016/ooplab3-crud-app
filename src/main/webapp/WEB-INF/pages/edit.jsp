@@ -13,6 +13,8 @@
 <title>Edit task</title>
 </c:if>
 
+<link rel="stylesheet" href="/res/style.css">
+
 </head>
 <body>
 
@@ -30,7 +32,7 @@
 <c:url value="/edit" var="path"/>
 </c:if>
 
-<form action="${path}" method="POST">
+<form action="${path}" method="POST" class="edit">
 <c:if test="${!empty task.name}">
 <input type="hidden" name="id" value="${task.id}">
 </c:if>

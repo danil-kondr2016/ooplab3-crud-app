@@ -5,7 +5,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Task planner</title>
+<link rel="stylesheet" href="/res/style.css">
 </head>
 <body>
 
@@ -16,6 +17,7 @@
 <main>
 <h2>List of tasks</h2>
 
+<div class="list">
 <table>
 <tr>
 	<th>ID</th>
@@ -43,6 +45,7 @@
 
 </c:forEach>
 </table>
+</div>
 
 <p><a href="/add">Create new task</a></p>
 
