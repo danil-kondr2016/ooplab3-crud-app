@@ -59,6 +59,12 @@
 </p>
 
 <c:if test="${!empty task.name}">
+<input type="hidden" name="dateOfStart" value="${task.dateOfStart}">
+<input type="hidden" name="dateOfEnd" value="${task.dateOfEnd}">
+<input type="hidden" name="state" value="${task.state}">
+</c:if>
+
+<c:if test="${!empty task.name}">
 <input type="submit" value="Edit">
 </c:if>
 
