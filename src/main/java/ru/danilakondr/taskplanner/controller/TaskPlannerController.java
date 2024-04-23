@@ -1,5 +1,6 @@
 package ru.danilakondr.taskplanner.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,8 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import ru.danilakondr.taskplanner.model.Task;
 import ru.danilakondr.taskplanner.dao.*;
@@ -77,9 +76,58 @@ public class TaskPlannerController {
 	public ModelAndView addTask(@ModelAttribute("task") Task task) {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("redirect:/");
+		task.setState(Task.State.HELD);
 		service.add(task);
 		
 		return mv;
+	}
+	
+	private ModelAndView setTaskState(Task task, Task.State state) {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("redirect:/");
+		
+		task.setState(state);
+		service.edit(task);
+		
+		return mv;
+	}
+	
+	@RequestMapping(value="/hold/{id}", method=RequestMethod.GET)
+	public ModelAndView holdTask(@PathVariable("id") long id) {
+		Task task = service.getById(id);
+		return setTaskState(task, Task.State.HELD);
+	}
+	
+	@RequestMapping(value="/take/{id}", method=RequestMethod.GET)
+	public ModelAndView takeTask(@PathVariable("id") long id) {
+		Task task = service.getById(id);
+		return setTaskState(task, Task.State.TAKEN);
+	}
+	
+	@RequestMapping(value="/start/{id}", method=RequestMethod.GET)
+	public ModelAndView startTask(@PathVariable("id") long id) {
+		Task task = service.getById(id);
+		task.setDateOfStart(LocalDate.now());
+		return setTaskState(task, Task.State.IN_PROGRESS);
+	}
+	
+	@RequestMapping(value="/resume/{id}", method=RequestMethod.GET)
+	public ModelAndView resumeTask(@PathVariable("id") long id) {
+		Task task = service.getById(id);
+		return setTaskState(task, Task.State.IN_PROGRESS);
+	}
+	
+	@RequestMapping(value="/pause/{id}", method=RequestMethod.GET)
+	public ModelAndView pauseTask(@PathVariable("id") long id) {
+		Task task = service.getById(id);
+		return setTaskState(task, Task.State.PAUSED);
+	}
+	
+	@RequestMapping(value="/complete/{id}", method=RequestMethod.GET)
+	public ModelAndView completeTask(@PathVariable("id") long id) {
+		Task task = service.getById(id);
+		task.setDateOfEnd(LocalDate.now());
+		return setTaskState(task, Task.State.COMPLETED);
 	}
 	
 	@RequestMapping(value="/json/list", method=RequestMethod.GET)

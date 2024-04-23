@@ -58,21 +58,6 @@
 <input type="number" name="timeInHours" id="timeInHours" value="${task.timeInHours}">
 </p>
 
-<p>
-<label for="dateOfStart">Date of start</label>
-<input type="date" name="dateOfStart" id="dateOfStart" value="${task.dateOfStart}">
-</p>
-
-<p>
-<label for="state">Task status</label>
-<select id="state" name="state">
-<option value="HELD">Held</option>
-<option value="TAKEN">Taken</option>
-<option value="IN_PROGRESS">In progress</option>
-<option value="COMPLETED">Completed</option>
-</select>
-</p>
-
 <c:if test="${!empty task.name}">
 <input type="submit" value="Edit">
 </c:if>
